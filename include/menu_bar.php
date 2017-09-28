@@ -11,8 +11,8 @@
         <li><a href="charts.html"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Charts</a></li>
         <li><a href="tables.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Tables</a></li>-->
         <li ><a href="atendimentos.php"><i class="fa fa-users" aria-hidden="true"></i> Atendimentos</a></li>
-        <li ><a href="paciente.php"><i class="fa fa-rss" aria-hidden="true"></i> Paciente</a></li>
-        <li ><a href="especialidade.php"><i class="fa fa-book" aria-hidden="true"></i> Especialidades</a></li>
+        <li ><a href="pessoa.php"><i class="fa fa-rss" aria-hidden="true"></i> Pessoa</a></li>
+        <li ><a href="item.php"><i class="fa fa-book" aria-hidden="true"></i> Item</a></li>
         <li ><a href="empresa.php"><i class="fa fa-bullhorn" aria-hidden="true"></i> Empresa</a></li>
         <li ><a href="usuarios.php"><i class="fa fa-user"></i> Usu&aacute;rios</a></li>
         <li ><a href="nivel.php"><i class="fa fa-info" aria-hidden="true"></i> N&iacute;vel</a></li>

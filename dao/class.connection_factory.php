@@ -11,7 +11,7 @@ class connection extends PDO
     private $dsn = 'mysql:host=localhost;dbname=emiliabd';
 
     private $user = 'emiliabd';
-    private $password = 'emiliabd';
+    private $password = 'emiliabd123';
     public $handle = null;
 
     function __construct() {
