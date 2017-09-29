@@ -10,11 +10,17 @@ $acao = $_POST['acao'];
 
 $nome = "";
 $nr_cracha      = "";
-$empresa        = "";
+$empresa        = 0;
 $nr_cep         = "";
 $nr_casa        = "";
 $ds_complemento = "";
 $id = 0;
+$telefone = "";
+
+if( isset( $_POST['telefone'] ) ){
+    $telefone = $_POST['telefone'];
+}
+
 if( isset( $_POST['nome'] ) ){
     $nome = $_POST['nome'];
 }
@@ -50,14 +56,14 @@ switch ( $acao ){
         getListObj();
         break;
     case 'I':
-        inserir( $nome, $nr_cracha,$empresa, $nr_cep, $nr_casa, $complemento );
+        inserir( $nome, $nr_cracha,$empresa, $nr_cep, $nr_casa, $ds_complemento, $telefone );
         break;
 
     case 'G':
         getObj( $id );
         break;
     case 'A':
-        update( $id, $nome, $nr_cracha,$empresa, $nr_cep, $nr_casa, $complemento );
+        update( $id, $nome, $nr_cracha,$empresa, $nr_cep, $nr_casa, $ds_complemento, $telefone );
         break;
     case 'E':
         excluir( $id );
@@ -92,23 +98,46 @@ function getListObj(){
 
 }
 
-function inserir ( $nome, $cracha,$empresa, $cep, $casa, $complemento ){
+function inserir ( $nome, $cracha,$empresa, $cep, $casa, $complemento, $telefone ){
     require_once "../controller/class.pessoa_controller.php";
+    require_once "../controller/class.telefone_controller.php";
     require_once "../model/class.pessoa.php";
+    require_once "../model/class.telefone.php";
+
+    $telefones = json_decode( $telefone );
 
     $obj = new pessoa();
     $obj->setNmPessoa( $nome );
     $obj->setNrCracha( $cracha );
     $obj->setEmpresa( $empresa );
-    $obj->setNrCep( $cep );
+    $subs = array(".","-");
+    $newCEP = str_replace( $subs, "", $cep );
+    $obj->setNrCep( $newCEP );
     $obj->setNrCasa( $casa );
     $obj->setDsComplemento( $complemento );
     $oc = new pessoa_controller();
     $teste = $oc->insert( $obj );
-    if( $teste ){
 
-        echo json_encode( array( "sucesso" => 1 ) );
+    $phoneObj = new telefone();
+    $tc       = new telefone_controller();
 
+    if( $teste > 0 ){
+
+        foreach ( $telefones as $item => $value ){
+            $phoneObj->setPessoa( $teste );
+            $phoneObj->setNrTelefone( $value->{'Telefone'} );
+            $phoneObj->setDsObservacao( $value->{'Obs'} );
+            $phoneObj->setTpTelefone( $value->{'Tipo'} );
+            $result = $tc->insert( $phoneObj );
+
+        }
+
+
+
+    }
+
+    if( $teste > 0 ){
+        echo json_encode( array( "sucesso" => 1, "cliente" => $teste ) );
     }
     else{
 
@@ -117,31 +146,50 @@ function inserir ( $nome, $cracha,$empresa, $cep, $casa, $complemento ){
     }
 }
 
-function update ( $id, $nome, $cracha,$empresa, $cep, $casa, $complemento  ){
-    require_once "../controller/class.pessoa_controller.php";
-    require_once "../model/class.pessoa.php";
+        function update ( $id, $nome, $cracha,$empresa, $cep, $casa, $complemento, $telefone  ){
+            require_once "../controller/class.pessoa_controller.php";
+            require_once "../controller/class.telefone_controller.php";
+            require_once "../model/class.pessoa.php";
+            require_once "../model/class.telefone.php";
 
-    $obj = new pessoa();
-    $obj->setNmPessoa( $nome );
-    $obj->setNrCracha( $cracha );
-    $obj->setEmpresa( $empresa );
-    $obj->setNrCep( $cep );
-    $obj->setNrCasa( $casa );
-    $obj->setDsComplemento( $complemento );
-    $obj->setCdPessoa( $id );
-    $oc = new pessoa_controller();
-    $teste = $oc->update( $obj );
-    if( $teste ){
+            $telefones = json_decode( $telefone );
 
-        echo json_encode( array( "sucesso" => 1 ) );
+            $obj = new pessoa();
+            $obj->setNmPessoa( $nome );
+            $obj->setNrCracha( $cracha );
+            $obj->setEmpresa( $empresa );
+            $obj->setNrCep( $cep );
+            $obj->setNrCasa( $casa );
+            $obj->setDsComplemento( $complemento );
+            $obj->setCdPessoa( $id );
+            $oc = new pessoa_controller();
+            $teste = $oc->update( $obj );
+            $phoneObj = new telefone();
+            $tc       = new telefone_controller();
 
-    }
-    else{
+                if( $teste > 0 ) {
+                    $removeTelefone = $tc->delete( $teste );
+                    foreach ($telefones as $item => $value) {
+                        $phoneObj->setPessoa( $teste );
+                        $phoneObj->setNrTelefone($value->{'Telefone'});
+                        $phoneObj->setDsObservacao($value->{'Obs'});
+                        $phoneObj->setTpTelefone($value->{'Tipo'});
+                        $result = $tc->insert($phoneObj);
 
-        echo json_encode( array( "sucesso" => 0 ) );
+                    }
 
-    }
-}
+                }
+
+            if( $teste > 0 ){
+                echo json_encode( array( "sucesso" => 1, "cliente" => $teste ) );
+            }
+            else{
+
+                echo json_encode( array( "sucesso" => 0 ) );
+
+            }
+
+        }
 
 function getObj($id){
     require_once "../controller/class.pessoa_controller.php";

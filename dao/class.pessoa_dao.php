@@ -12,16 +12,23 @@ class pessoa_dao
    public function insert ( pessoa $pessoa ){
 
        require_once "class.connection_factory.php";
-       $teste = false;
+       $teste = 0;
        $this->connection = new connection();
        $this->connection->beginTransaction();
        try{
 
            $sql = "INSERT INTO pessoa 
-                  (CD_PESSOA, NM_PESSOA, NR_CRACHA, CD_EMPRESA, NR_CEP, NR_CASA, DS_COMPLEMENTO)  
+                  (CD_PESSOA, NM_PESSOA, NR_CRACHA, CD_EMPRESA, NR_CEP, NR_CASA, DS_COMPLEMENTO, DT_CADASTRO)  
                   VALUES
-                  (NULL, :NM_PESSOA, :NR_CRACHA, :CD_EMPRESA, :NR_CEP, :NR_CASA, :DS_COMPLEMENTO)";
+                  (NULL, :NM_PESSOA, :NR_CRACHA, :CD_EMPRESA, :NR_CEP, :NR_CASA, :DS_COMPLEMENTO, CURDATE())";
            $stmt = $this->connection->prepare( $sql );
+        /*   $nome = $pessoa->getNmPessoa();
+           $cracha = $pessoa->getNrCracha();
+           $empresa = $pessoa->getEmpresa();
+           echo "Nome: $nome \n";
+           echo "Cracha: $cracha \n";
+           echo "Empresa: $empresa \n";*/
+
            $stmt->bindValue( ":NM_PESSOA", $pessoa->getNmPessoa(), PDO::PARAM_STR );
            $stmt->bindValue( ":NR_CRACHA", $pessoa->getNrCracha(), PDO::PARAM_STR );
            $stmt->bindValue( ":CD_EMPRESA", $pessoa->getEmpresa(), PDO::PARAM_INT );
@@ -29,8 +36,13 @@ class pessoa_dao
            $stmt->bindValue( ":NR_CASA", $pessoa->getNrCasa(), PDO::PARAM_STR );
            $stmt->bindValue( ":DS_COMPLEMENTO", $pessoa->getDsComplemento(), PDO::PARAM_STR );
            $stmt->execute();
+           $teste = $this->connection->lastInsertId();
            $this->connection->commit();
-           $teste = true;
+
+           echo "Codigo retornado: $teste \n";
+
+
+
            $this->connection = null;
 
 
