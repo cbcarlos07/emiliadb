@@ -30,8 +30,12 @@ function getObj( id ) {
                 id   : id
             },
             success : function (data) {
-                $('#descricao').val( data.descricao );
-                $('#preco').val( formataDinheiro( parseFloat( data.valor ) ) );
+                $('#nome').val( data.nome );
+                $('#cracha').val( data.cracha );
+                $('#empresa').val( data.empresa ).trigger( "chosen:updated" );
+                $('#cep').val( data.cep );
+                $('#nrcasa').val( data.casa );
+                $('#complemento').val( data.complemento );
             }
         })
 
@@ -108,10 +112,10 @@ function getListObj() {
                     "<tr>"+
                         "<td>"+ j.id +"</td>"+
                         "<td>"+ j.nome +"</td>"+
-                        "<td>"+ formataDinheiro( parseFloat( j.empresa ) ) +"</td>"+
+                        "<td>"+ j.empresa +"</td>"+
                         "<td>" +
                             "<a href='#editar' class='btn btn-warning btn-editar' title='Editar' data-id='"+ j.id +"'><i class='fa fa-pencil-square-o'></i> Editar </a> &nbsp;" +
-                            "<a href='#excluir' class='btn btn-danger btn-excluir' title='Excluir' data-id='"+ j.id +"' data-nome='"+ j.descricao +"'><i class='fa fa-times'></i> Excluir</a>" +
+                            "<a href='#excluir' class='btn btn-danger btn-excluir' title='Excluir' data-id='"+ j.id +"' data-nome='"+ j.nome +"'><i class='fa fa-times'></i> Excluir</a>" +
                         "</td>"+
                     "</tr>"
 

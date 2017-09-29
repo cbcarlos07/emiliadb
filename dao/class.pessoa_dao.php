@@ -39,7 +39,7 @@ class pessoa_dao
            $teste = $this->connection->lastInsertId();
            $this->connection->commit();
 
-           echo "Codigo retornado: $teste \n";
+      //     echo "Codigo retornado: $teste \n";
 
 
 

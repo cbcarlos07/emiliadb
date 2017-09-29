@@ -46,7 +46,7 @@ function getObj( id ) {
         var tbody = $('.tbodycad');
         tbody.find('tr').remove();
         $.ajax({
-            url  : 'function/paciente.php',
+            url  : 'function/pessoa.php',
             type : 'post',
             dataType : 'json',
             data : {
@@ -55,18 +55,19 @@ function getObj( id ) {
             },
             success : function (data) {
                 $('#nome').val( data.nome );
-                $('#empresa').val( data.empresa ).trigger("chosen:updated");
-                $('#cep').val( data.nrcep );
-                $('#nrcasa').val( data.nrcasa );
+                $('#cracha').val( data.cracha );
+                comboBoxEmpresa( data.empresa );
+                $('#cep').val( data.cep );
+                $('#nrcasa').val( data.casa );
                 $('#complemento').val( data.complemento );
 
-                $.each(data.fones, function (i, j) {
+                $.each(data.telefone, function (i, j) {
                         tbody.append(
                             "<tr>"+
                                 "<td>" + j.telefone + "</td>"+
                                 "<td>" + j.obs + "</td>"+
                                 "<td>" + j.tipo + "</td>"+
-                                "<td>" + j.strtipo + "</td>"+
+                                "<td>" + j.dstipo + "</td>"+
                             "</tr>"
                         );
                 });
@@ -117,18 +118,7 @@ $('.btn-salvar').on('click',function () {
             success : function (data) {
                 $('.progress').fadeOut();
                 if( data.sucesso === 1){
-                        var action;
-                        if( acao == 'I' )
-                            action = 'I';
-                        else
-                            action = 'U';
-                        $('#id').val(data.paciente);
-                        $('#cdpac').val(id);
-                        $('#acaoModal').val( action );
-                        console.log("Action modal: "+action);
-                        $('.modal-especialidade').modal('show');
-
-
+                    msgSucesso();
 
                 }else{
                     erroSend();
@@ -319,7 +309,7 @@ function msgSucesso() {
     mensagem.empty().html("<p class='alert alert-success'><strong>Parab&eacute;ns</strong> Opera&ccedil;&atilde;o realizada com sucesso! </p>").fadeIn();
     setTimeout(function () {
         mensagem.fadeOut();
-        location.href = "paciente.php";
+        location.href = "pessoa.php";
     },3000);
 }
 

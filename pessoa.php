@@ -54,13 +54,13 @@ if( !isset( $_SESSION['login'] ) ){
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Pessoa</li>
+				<li class="active">Cliente</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header col-lg-9">Pessoa</h1>
+				<h1 class="page-header col-lg-9">Cliente</h1>
                 <a href="pessoacad.php" class="btn btn-primary col-lg-3" style="margin-top: 20px;">Novo</a>
 			</div>
 		</div><!--/.row-->

@@ -201,13 +201,55 @@ function getObj($id){
     $array['id']          = $obj->getCdPessoa();
     $array['nome']        = $obj->getNmPessoa();
     $array['cracha']      = $obj->getNrCracha();
+    $array['empresa']     = $obj->getEmpresa();
     $array['cep']         = $obj->getNrCep();
     $array['casa']        = $obj->getNrCasa();
     $array['complemento'] = $obj->getDsComplemento();
+    $array['telefone']    = getListTelefone( $id );
 
     echo json_encode( $array );
 
 }
+
+function getListTelefone( $pessoa ){
+    require_once "../controller/class.telefone_controller.php";
+    require_once "../model/class.telefone.php";
+    require_once "../services/class.telefoneListIterator.php";
+
+    $telefoneController = new telefone_controller();
+    $lista = $telefoneController->listaTelefone( $pessoa );
+    $telefoneList = new telefoneListIterator( $lista );
+    $telefones = array();
+    while ( $telefoneList->hasNextTelefone() ){
+        $telefone = $telefoneList->getNextTelefone();
+        $telefones[] = array(
+            "telefone"   => $telefone->getNrTelefone(),
+            "obs"        => $telefone->getDsObservacao(),
+            "tipo"       => $telefone->getTpTelefone(),
+            "dstipo"     => getTipoTelefone( $telefone->getTpTelefone() )
+
+        );
+    }
+    return $telefones;
+}
+
+
+function getTipoTelefone( $tipo ){
+    $type = "";
+    switch ( $tipo ){
+        case 'C':
+            $type = "Celular";
+            break;
+        case 'R':
+            $type = "Residencial";
+            break;
+        case 'T':
+            $type = "Trabalho";
+            break;
+    }
+    return $type;
+}
+
 
 function excluir( $id ){
     require_once "../controller/class.pessoa_controller.php";
