@@ -28,7 +28,7 @@ if( !isset( $_SESSION['login'] ) ){
         <p class="alert alert-success">Mensagem de retorno</p>
     </div>
     <div class="modal fade modal-registro" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
 
             <div class="modal-content">
 
@@ -42,10 +42,39 @@ if( !isset( $_SESSION['login'] ) ){
                     <h4 class="modal-title">Novo Registro</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group col-lg-12">
                         <label for="cliente">Cliente</label>
-                        <select id="cliente" class="form-control"></select>
+                        <select  id="cliente" class="form-control"></select>
                     </div>
+                    <hr >
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Total</div>
+                        <div class="panel-body">Panel Content</div>
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="qtde">Qtde</label>
+                        <input id="qtde" class="form-control" type="number" value="1" min="1"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="produto">Produto</label>
+                        <select  id="produto" class="form-control"></select>
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="valor">Valor Unit</label>
+                        <input id="valor" class="form-control" />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="subtotal">Valor Total</label>
+                        <input id="subtotal" class="form-control" style="color: blue; font-weight: bold"/>
+                    </div>
+                    <div class="row"></div>
+                    <button class="btn btn-success btn-adicionar">Adicionar</button>
+                    <div class="row"></div>
+
+                    <table class="tb-produtos"></table>
+
+
+                    <div class="row"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-sim">Sim</button>
@@ -109,8 +138,15 @@ if( !isset( $_SESSION['login'] ) ){
     <script src="js/chosen.jquery.min.js"></script>
     <script src="js/lancamento.js"></script>
     <script>
-        $('#cliente').chosen();
+        $('.modal-registro').on('shown.bs.modal', function () {
+           // $('#resp', this).chosen('destroy').chosen();
+            $('#cliente', this).chosen('destroy').chosen();
+            $('#produto', this).chosen('destroy').chosen();
+            // console.log("User: "+$('#usuario').val());
+            // $('#resp').text( $('#usuario').val() ).trigger("chosen:updated");
+        });
     </script>
+
 </body>
 
 </html>

@@ -107,7 +107,6 @@ function getListObj() {
             $.each( data.objetos, function (i, j) {
 
 
-
                 $('.tbody').append(
                     "<tr>"+
                         "<td>"+ j.id +"</td>"+

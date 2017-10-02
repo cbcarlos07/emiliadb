@@ -255,13 +255,14 @@ function excluir( $id ){
     require_once "../controller/class.pessoa_controller.php";
     require_once "../controller/class.telefone_controller.php";
     $oc = new pessoa_controller();
-
+    $telefoneController = new telefone_controller();
+    $teste1 = $telefoneController->delete( $id );
     $teste = $oc->delete( $id );
 
     if( $teste ){
 
-        $telefoneController = new telefone_controller();
-        $teste1 = $telefoneController->delete( $id );
+
+
 
         echo json_encode( array( "success" => 1) );
     }else{

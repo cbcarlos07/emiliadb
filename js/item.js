@@ -43,7 +43,6 @@ function formataDinheiro(n) {
 }
 
 
-
 $('.btn-salvar').on('click',function () {
     if( validarcampos() ){
         var acao  = $('#acao').val();
@@ -75,7 +74,7 @@ $('.btn-salvar').on('click',function () {
 
     }
     return false;
-})
+});
 
 
 
@@ -179,9 +178,6 @@ function validarcampos() {
 
         return false;
     }
-
-
-
 }
 
 
@@ -190,10 +186,6 @@ function colorirCampo( id, cor ) {
     $('input[id="'+ id +'"]').css( "border-color", cor );
 
 }
-
-
-
-
 
 function aguardando() {
     $('.progress').fadeIn();

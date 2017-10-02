@@ -172,7 +172,7 @@ $('.btn-cancelar').on('click', function(){
 function getListObj() {
     $('.tbody').find( 'tr' ).remove();
     $.ajax({
-        url  : 'function/paciente.php',
+        url  : 'function/pessoa.php',
         type : 'post',
         dataType : 'json',
         data : {
@@ -182,14 +182,14 @@ function getListObj() {
 
             $.each( data.objetos, function (i, j) {
 
-
                 $('.tbody').append(
                     "<tr>"+
                         "<td>"+ j.id +"</td>"+
-                        "<td>"+ j.name +"</td>"+
+                        "<td>"+ j.nome +"</td>"+
+                        "<td>"+ j.empresa +"</td>"+
                         "<td>" +
-                            "<a href='#editar' class='btn btn-warning btn-editar' title='Editar' data-id='"+ j.id +"'><i class='fa fa-pencil-square-o'></i> Editar </a> &nbsp;" +
-                            "<a href='#excluir' class='btn btn-danger btn-excluir' title='Excluir' data-id='"+ j.id +"' data-nome='"+ j.name +"'><i class='fa fa-times'></i> Excluir</a>" +
+                        "<a href='#editar' class='btn btn-warning btn-editar' title='Editar' data-id='"+ j.id +"'><i class='fa fa-pencil-square-o'></i> Editar </a> &nbsp;" +
+                        "<a href='#excluir' class='btn btn-danger btn-excluir' title='Excluir' data-id='"+ j.id +"' data-nome='"+ j.nome +"'><i class='fa fa-times'></i> Excluir</a>" +
                         "</td>"+
                     "</tr>"
 
@@ -200,7 +200,7 @@ function getListObj() {
             $('.btn-editar').on('click', function () {
               //  console.log("Editar");
                 var id = $(this).data('id');
-                var form = $('<form method="post" action="pacientealt.php">'+
+                var form = $('<form method="post" action="pessoaalt.php">'+
                     '<input type="hidden" name="id" value="'+ id +'" />'+
                     '</form>');
                 $('body').append(form);
@@ -215,7 +215,7 @@ function getListObj() {
                 $('.modal-question').modal('show');
                 $('.btn-sim').on('click', function () {
                     $.ajax({
-                        url  : 'function/paciente.php',
+                        url  : 'function/pessoa.php',
                         type : 'post',
                         dataType: 'json',
                         befereSend : aguardandoModal,

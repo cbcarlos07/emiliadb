@@ -94,12 +94,13 @@ if( !isset( $_SESSION['login'] ) ){
 
 	<script src="js/jquery-3.2.1.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.mask.js"></script>
 	<script src="js/bootstrap-table.js"></script>
 
     <script src="js/selecao.js"></script>
 
 
-    <script src="js/pessoa.js"></script>
+    <script src="js/cliente.js"></script>
 </body>
 
 </html>
