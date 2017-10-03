@@ -124,22 +124,47 @@ function calcularSubTotal() {
 }
 
 $('.btn-adicionar').on('click', function () {
+  //  console.log("Adicionar");
     adicionarItemTable();
 });
 
 function adicionarItemTable() {
-    var produto = $('#produto');
+    var produto = $('#produto :selected');
     var item = produto.val();
     var qtde = $('#qtde').val();
     var desc = produto.text();
-    var subTotal = qtde * parseFloat( valor );
+    var valor = $('#subtotal').val();
+  /*  console.log("Item: "+item);
+    console.log("Qtde: "+qtde);
+    console.log("Descricao: "+desc);
+    console.log("Valor: "+valor);*/
+
     var linha = "" +
         "<tr>" +
             "<td>"+ item +"</td>"+
             "<td>"+ desc +"</td>"+
             "<td>"+ qtde +"</td>"+
-            "<td>"+ formataDinheiro( subTotal ) +"</td>"+
+            "<td>"+ valor +"</td>"+
         "</tr>";
-    $('#subtotal').append( linha );
+    $('#tb-itens').append( linha );
 
+    calcularTotal();
+
+}
+
+function calcularTotal() {
+    var valor = 0;
+    $('.tb-produtos').find('tr').each(function(indice){
+        var tableData = $(this).children("td").map(function()         {
+            return $(this).text();
+        }).get();
+        //console.log("Clique: "+$.trim(tableData[0]));
+        var dado = $.trim(tableData[3]) ;
+      //  console.log("Dado: "+dado);
+        if( dado != "" )
+           valor +=  parseFloat( dado.replace("R$ ","").replace(",",".") );
+    });
+
+  //  console.log( "Total: "+valor );
+    $('.vl-total').text( formataDinheiro( valor ) );
 }

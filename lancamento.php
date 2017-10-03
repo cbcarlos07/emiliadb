@@ -47,10 +47,15 @@ if( !isset( $_SESSION['login'] ) ){
                         <select  id="cliente" class="form-control"></select>
                     </div>
                     <hr >
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Total</div>
-                        <div class="panel-body">Panel Content</div>
+                    <div class="col-lg-4"></div>
+                    <div class="panel panel-default col-lg-4">
+                        <div class="panel-heading" style="text-align: center">Total</div>
+                        <div class="panel-body" style="color: green; font-size: 35px; font-weight: bold; text-align: center">
+                            <span class="vl-total"></span>
+                        </div>
                     </div>
+                    <div class="col-lg-4"></div>
+                    <div class="row"></div>
                     <div class="form-group col-lg-2">
                         <label for="qtde">Qtde</label>
                         <input id="qtde" class="form-control" type="number" value="1" min="1"/>
@@ -71,7 +76,15 @@ if( !isset( $_SESSION['login'] ) ){
                     <button class="btn btn-success btn-adicionar">Adicionar</button>
                     <div class="row"></div>
 
-                    <table class="tb-produtos"></table>
+                    <table class="tb-produtos table table-hover">
+                        <thead>
+                          <th>#</th>
+                          <th>Descri&ccedil;&atilde;o</th>
+                          <th>Qtde</th>
+                          <th>Valor</th>
+                        </thead>
+                        <tbody id="tb-itens"></tbody>
+                    </table>
 
 
                     <div class="row"></div>
