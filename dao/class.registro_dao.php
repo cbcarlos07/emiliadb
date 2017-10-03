@@ -10,7 +10,7 @@ class registro_dao
 {
    private $connection;
    public function insert ( $registro ){
-
+       require_once "../include/error.php";
        require_once "class.connection_factory.php";
        $teste = false;
        $this->connection = new connection();
@@ -20,7 +20,7 @@ class registro_dao
            $sql = "INSERT INTO registro 
                   (CD_REG_PESSOA, CD_PESSOA, CD_ITEM, VL_PRECO, DT_REGISTRO, SN_PAGO, QT_COMPRA)  
                   VALUES
-                  ( NULL, CD_PESSOA, CD_ITEM, VL_PRECO, NOW(), SN_PAGO, QT_COMPRA)";
+                  ( NULL, :CD_PESSOA, :CD_ITEM, :VL_PRECO, NOW(), :SN_PAGO, :QT_COMPRA)";
            $stmt = $this->connection->prepare( $sql );
            $stmt->bindValue( "CD_PESSOA", $registro['pessoa'], PDO::PARAM_INT );
            $stmt->bindValue( "CD_ITEM", $registro['item'], PDO::PARAM_INT );

@@ -7,19 +7,82 @@
  */
 
 $acao = $_POST['acao'];
+$registro = 0;
+$pessoa = 0;
+$item   = 0;
+$valor  = 0;
+$pago   = "";
+$qtde   = 0;
+$cracha   = "";
+$itens = "";
+
+if( isset( $_POST['registro'] ) )
+    $registro = $_POST['registro'];
+
+if( isset( $_POST['pessoa'] ) )
+    $pessoa = $_POST['pessoa'];
+
+if( isset( $_POST['item'] ) )
+    $item = $_POST['item'];
+
+if( isset( $_POST['valor'] ) )
+    $valor = $_POST['valor'];
+
+if( isset( $_POST['pago'] ) )
+    $pago = $_POST['pago'];
+
+if( isset( $_POST['qtde'] ) )
+    $qtde = $_POST['qtde'];
+
+if( isset( $_POST['cracha'] ) )
+    $cracha = $_POST['cracha'];
+
+if( isset( $_POST['itens'] ) )
+    $itens = $_POST['itens'];
 
 
-function registrar_compra( $pessoa, $item, $valor, $pago, $item ){
+
+
+
+switch ( $acao ){
+    case 'R':
+        registrar_compra( $pessoa,  $pago, $itens );
+        break;
+    case 'P':
+        registrar_pagamento( $pago, $registro );
+        break;
+    case 'L':
+        listaRegistro( $pessoa, $cracha );
+        break;
+    case 'I':
+        listaITem( $pessoa );
+        break;
+
+}
+
+
+function registrar_compra( $pessoa,  $pago, $itens ){
+    require_once "../include/error.php";
     require_once "../controller/class.registro_controller.php";
-    $registro['pessoa'] = $pessoa;
-    $registro['item']   = $item;
-    $registro['valor']  = $valor;
-    $registro['pago']   = $pago;
-    $registro['qtde']   = $pago;
-
     $registro_Controller = new registro_controller();
-    $teste = $registro_Controller->insert( $registro );
 
+    $arr = json_decode( $itens );
+
+    $teste =  false;
+    foreach ( $arr as $a => $b ) {
+        echo "Pessoa: $pessoa";
+        $registro['pessoa'] = $pessoa;
+        $registro['item'] = $b->{'#'};
+        $valor = str_replace("R$ ", "", str_replace(",", ".", $b->{'Valor'}));
+        echo "Valor: $valor \n";
+        $registro['valor'] = $valor;
+        $registro['pago'] = $pago;
+        $registro['qtde'] = $b->{'Qtde'};
+
+
+
+        $teste = $registro_Controller->insert($registro);
+    }
     if( $teste )
        echo json_encode( array( "retorno" => 1 ) );
     else
@@ -65,4 +128,28 @@ function listaRegistro( $pessoa, $cracha ){
     echo json_encode( $registros );
 
 
+}
+
+function listaITem ( $pessoa ){
+    require_once "../controller/class.registro_controller.php";
+    require_once "../services/class.registroListIterator.php";
+    $registro_Controller = new registro_controller();
+    $lista = $registro_Controller->listaRegistroItem( $pessoa );
+    $registros  = array();
+    $reg_in = new registroListIterator( $lista );
+    while ( $reg_in->hasNextRegistro() ){
+
+        $registro = $reg_in->getNextRegistro();
+        $registros[] = array(
+            "codigo"  => $registro->getCdRegPessoa(),
+            "cracha"  => $registro->getPessoa()->getNrCracha(),
+            "pessoa"  => $registro->getPessoa()->getNmPessoa(),
+            "empresa" => $registro->getNmPago(),
+            "qtde"    => $registro->getQtCompra(),
+            "valor"   => $registro->getVlPreco(),
+        );
+
+    }
+
+    echo json_encode( $registros );
 }

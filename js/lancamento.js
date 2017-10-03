@@ -31,7 +31,7 @@ function carregarListaCliente() {
         },
         success: function (data) {
             combo.append(
-                $('<option />').val( 0 ).text( 'Selecione' )
+                $('<option />').val( 0 )
             );
             $.each( data.objetos, function (i, j) {
 
@@ -60,7 +60,7 @@ function carregarListaProduto() {
         },
         success: function (data) {
             combo.append(
-                $('<option />').val( 0 ).text( 'Selecione' )
+                $('<option />').val( 0 )
             );
             $.each( data.objetos, function (i, j) {
 
@@ -81,6 +81,8 @@ $('#produto').on('change', function () {
         getValor( id );
     }else{
         $('#valor').val("");
+        $('#subtotal').val("");
+
 
     }
 
@@ -167,4 +169,93 @@ function calcularTotal() {
 
   //  console.log( "Total: "+valor );
     $('.vl-total').text( formataDinheiro( valor ) );
+}
+
+$('.btn-sim').on('click', function () {
+    salvarItens();
+});
+
+
+function salvarItens() {
+   var pessoa = $('#cliente').val();
+   var tabela  = $('.tb-produtos').tableToJSON();
+   var itens   = JSON.stringify( tabela );
+   var pago    = $('#pago');
+   var snpago = "N";
+   if( pago.is(":checked") ){
+       snpago = "S";
+   }
+
+   $.ajax({
+       url  : 'function/registro.php',
+       type : 'post',
+       dataType: 'json',
+       beforeSend : aguardandoModal,
+       data : {
+           acao : 'R',
+           pessoa : pessoa,
+           pago   : snpago,
+           itens  : itens
+       },
+       success : function (data) {
+           if( data.retorno > 0 ){
+                msgSucessoModal();
+           }else{
+               erroSendModal();
+           }
+       }
+   })
+
+}
+
+
+
+
+function aguardando() {
+    $('.progress').fadeIn();
+}
+
+function erroSend() {
+    var mensagem = $('.mensagem');
+    mensagem.empty().html("<p class='alert alert-danger'><strong>Ops</strong> Ocorreu um erro ao processar sua requisi&ccedil;&atilde;o </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut('slow');
+    }, 3000)
+
+}
+
+function aguardandoModal() {
+    var mensagem = $('.progressModal');
+    mensagem.empty().html("<p class='alert alert-danger'><strong>Ops</strong> Ocorreu um erro ao processar sua requisi&ccedil;&atilde;o </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut('slow');
+    }, 3000)
+
+}
+
+function erroSendModal() {
+    var mensagem = $('.msgAvisoModal');
+    mensagem.empty().html("<p class='alert alert-danger'><strong>Ops</strong> Ocorreu um erro ao processar sua requisi&ccedil;&atilde;o </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut('slow');
+    }, 3000)
+
+}
+
+function msgSucesso() {
+    var mensagem = $('.mensagem');
+    mensagem.empty().html("<p class='alert alert-success'><strong>Parab&eacute;ns</strong> Opera&ccedil;&atilde;o realizada com sucesso! </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut();
+        location.href = "pessoa.php";
+    },3000);
+}
+
+
+function msgSucessoModal() {
+    var mensagem = $('.msgAvisoModal');
+    mensagem.empty().html("<p class='alert alert-success'><strong>Parab&eacute;ns</strong> Opera&ccedil;&atilde;o realizada com sucesso! </p>").fadeIn();
+    setTimeout(function () {
+        location.href = "lancamento.php";
+    },3000);
 }

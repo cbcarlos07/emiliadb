@@ -44,7 +44,9 @@ if( !isset( $_SESSION['login'] ) ){
                 <div class="modal-body">
                     <div class="form-group col-lg-12">
                         <label for="cliente">Cliente</label>
-                        <select  id="cliente" class="form-control"></select>
+                        <select  id="cliente" class="form-control" data-placeholder="Escolha um cliente">
+                            <option value="0"></option>
+                        </select>
                     </div>
                     <hr >
                     <div class="col-lg-4"></div>
@@ -62,7 +64,9 @@ if( !isset( $_SESSION['login'] ) ){
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="produto">Produto</label>
-                        <select  id="produto" class="form-control"></select>
+                        <select  id="produto" class="form-control" data-placeholder="Escolha um produto">
+                            <option value="0"></option>
+                        </select>
                     </div>
                     <div class="form-group col-lg-2">
                         <label for="valor">Valor Unit</label>
@@ -71,6 +75,12 @@ if( !isset( $_SESSION['login'] ) ){
                     <div class="form-group col-lg-2">
                         <label for="subtotal">Valor Total</label>
                         <input id="subtotal" class="form-control" style="color: blue; font-weight: bold"/>
+                    </div>
+                    <div class="row"></div>
+                    <div class="form-group checkbox col-lg-2">
+                        <label>
+                            <input type="checkbox" id="pago" >Pago ?
+                        </label>
                     </div>
                     <div class="row"></div>
                     <button class="btn btn-success btn-adicionar">Adicionar</button>
@@ -149,16 +159,18 @@ if( !isset( $_SESSION['login'] ) ){
     <script src="js/selecao.js"></script>
 
     <script src="js/chosen.jquery.min.js"></script>
+    <script src="js/jquery.tabletojson.min.js"></script>
     <script src="js/lancamento.js"></script>
     <script>
         $('.modal-registro').on('shown.bs.modal', function () {
            // $('#resp', this).chosen('destroy').chosen();
-            $('#cliente', this).chosen('destroy').chosen();
-            $('#produto', this).chosen('destroy').chosen();
+            $('#cliente', this).chosen('destroy').chosen( {allow_single_deselect: true} );
+            $('#produto', this).chosen('destroy').chosen( {allow_single_deselect: true} );
             // console.log("User: "+$('#usuario').val());
             // $('#resp').text( $('#usuario').val() ).trigger("chosen:updated");
         });
     </script>
+
 
 </body>
 
