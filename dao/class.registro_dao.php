@@ -12,6 +12,7 @@ class registro_dao
    public function insert ( $registro ){
        require_once "../include/error.php";
        require_once "class.connection_factory.php";
+      // echo "Valor ".$registro['valor']." \n";
        $teste = false;
        $this->connection = new connection();
        $this->connection->beginTransaction();
@@ -89,7 +90,7 @@ class registro_dao
                       JOIN empresa E
                       WHERE P.CD_PESSOA  = R.CD_PESSOA
                         AND E.CD_EMPRESA = P.CD_EMPRESA	
-                        AND P.NM_PESSOA LIKE :pessoa OR P.NR_CRACHA LIKE :cracha
+                        AND (P.NM_PESSOA LIKE :pessoa OR P.NR_CRACHA LIKE :cracha)
                         AND R.SN_PAGO = 'N'
                     GROUP BY P.CD_PESSOA
                     ";
@@ -100,7 +101,7 @@ class registro_dao
             $stmt->execute();
             while ($row = $stmt->fetch( PDO::FETCH_ASSOC )){
                 $obj = new registro();
-                $obj->setCdRegPessoa( $row['CODIGO'] );
+                $obj->setCdRegPessoa( $row['CD_PESSOA'] );
                 $obj->setPessoa( new pessoa() );
                 $obj->getPessoa( )->setNrCracha( $row['CRACHA'] );
                 $obj->getPessoa( )->setNmPessoa( $row['NOME'] );

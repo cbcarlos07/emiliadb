@@ -9,6 +9,7 @@ $(document).ready(function () {
    $('.mensagem').fadeOut();
    $('.progress').fadeOut();
    $('.msgAvisoModal').fadeOut();
+   preencherTabela();
 });
 
 
@@ -257,5 +258,50 @@ function msgSucessoModal() {
     mensagem.empty().html("<p class='alert alert-success'><strong>Parab&eacute;ns</strong> Opera&ccedil;&atilde;o realizada com sucesso! </p>").fadeIn();
     setTimeout(function () {
         location.href = "lancamento.php";
+        preencherTabela();
     },3000);
+}
+
+function preencherTabela() {
+     var tbody = $('.tbody');
+     tbody.find('tr').remove();
+    $.ajax({
+        url : 'function/registro.php',
+        type : 'post',
+        dataType: 'json',
+        data : {
+            acao : 'L',
+            pessoa : '%',
+            cracha : '%'
+        },
+        success : function (data) {
+
+            $.each( data, function (item, chave ) {
+                tbody.append(
+                    "<tr>"+
+                        "<td>"+ chave.cracha +"</td>"+
+                        "<td>"+ chave.pessoa +"</td>"+
+                        "<td>"+ chave.empresa +"</td>"+
+                        "<td> <a href='#pg' data-id='"+ chave.chracha +"' class='lnk-pgto'>"+ formataDinheiro( parseFloat( chave.valor ) ) +"</a> </td>"+
+                        "<td> " +
+                            "<button class='btn btn-primary btn-detail'> Detalhes </button>"+
+                            "<button class='btn btn-success btn-pay'> Registrar Pagamento </button> " +
+
+                        "</td>"+
+
+                    "</tr>"
+                );
+            } );
+            
+            $('.lnk-pgto').on('click', function () {
+                var id = $(this).data('id');
+
+            });
+
+            $('.btn-detail')
+
+        }
+    })
+
+
 }

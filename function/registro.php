@@ -70,14 +70,19 @@ function registrar_compra( $pessoa,  $pago, $itens ){
 
     $teste =  false;
     foreach ( $arr as $a => $b ) {
-        echo "Pessoa: $pessoa";
+      //  echo "Pessoa: $pessoa \n";
         $registro['pessoa'] = $pessoa;
         $registro['item'] = $b->{'#'};
+        $item = $b->{'#'};
+       // echo "Produto: $item \n";
         $valor = str_replace("R$ ", "", str_replace(",", ".", $b->{'Valor'}));
-        echo "Valor: $valor \n";
+       // echo "Valor: $valor \n";
         $registro['valor'] = $valor;
         $registro['pago'] = $pago;
+       // echo "Pago: $pago \n";
         $registro['qtde'] = $b->{'Qtde'};
+        $qtde = $b->{'Qtde'};
+       // echo "Qtde: $qtde \n";
 
 
 
@@ -119,7 +124,7 @@ function listaRegistro( $pessoa, $cracha ){
         $registros[] = array(
             "cracha"  => $registro->getPessoa()->getNrCracha(),
             "pessoa"  => $registro->getPessoa()->getNmPessoa(),
-            "empresa" => $registro->getNmPago(),
+            "empresa" => $registro->getSnPago(),
             "valor"   => $registro->getVlPreco(),
         );
 

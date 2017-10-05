@@ -6,7 +6,9 @@ if( !isset( $_SESSION['login'] ) ){
 ?>
 <!DOCTYPE html>
 <html>
-<?php include "include/head.php"?>
+<?php include "include/head.php";
+     $_id = $_POST['id'];
+?>
 
 <link href="css/chosen.min.css" rel="stylesheet" type="text/css">
 
@@ -14,6 +16,7 @@ if( !isset( $_SESSION['login'] ) ){
 
 
 <body>
+    <input type="hidden" value="<?= $_id ?>" id="id">
 	<?php include "include/barra_superior.php" ?>
 
 		
