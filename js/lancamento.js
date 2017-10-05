@@ -277,15 +277,16 @@ function preencherTabela() {
         success : function (data) {
 
             $.each( data, function (item, chave ) {
+               // console.log("Codigo: "+chave.codigo);
                 tbody.append(
                     "<tr>"+
                         "<td>"+ chave.cracha +"</td>"+
                         "<td>"+ chave.pessoa +"</td>"+
                         "<td>"+ chave.empresa +"</td>"+
-                        "<td> <a href='#pg' data-id='"+ chave.chracha +"' class='lnk-pgto'>"+ formataDinheiro( parseFloat( chave.valor ) ) +"</a> </td>"+
+                        "<td> <a href='#pg' data-id='"+ chave.cracha +"' class='lnk-pgto'>"+ formataDinheiro( parseFloat( chave.valor ) ) +"</a> </td>"+
                         "<td> " +
-                            "<button class='btn btn-primary btn-detail'> Detalhes </button>"+
-                            "<button class='btn btn-success btn-pay'> Registrar Pagamento </button> " +
+                            "<a class='btn btn-primary btn-detail' data-id='"+chave.codigo+"'> Detalhes </a>"+
+                            "<a class='btn btn-success btn-pay' data-id='"+chave.codigo+"'> Registrar Pagamento </a> " +
 
                         "</td>"+
 
@@ -298,7 +299,15 @@ function preencherTabela() {
 
             });
 
-            $('.btn-detail')
+            $('.btn-detail').on('click', function () {
+                var id = $(this).data('id');
+              //  alert("Codigo: "+id);
+                var form = $('<form action="registros.php" method="post">' +
+                                 '<input type="hidden" name="id" value="'+ id +'">'+
+                             '</form>');
+                $('body').append( form );
+                form.submit();
+            });
 
         }
     })

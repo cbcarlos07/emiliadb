@@ -30,10 +30,11 @@ if( !isset( $_SESSION['login'] ) ){
          style="margin-top: -65px; margin-left: -15px; text-align: center; width: 110%; position: relative; font-size: 12px; z-index: 3">
         <p class="alert alert-success">Mensagem de retorno</p>
     </div>
-    <div class="modal fade modal-registro" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade modal-registro" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog " role="document">
 
             <div class="modal-content">
+                <input type="hidden" id="cdregistro">
 
                 <div class="msgAvisoModal"
                      style="margin-top: 0;  text-align: center; width: 100%; position: relative; font-size: 12px; z-index: 3">
@@ -42,66 +43,50 @@ if( !isset( $_SESSION['login'] ) ){
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Novo Registro</h4>
+                    <h4 class="modal-title">Confirmar Pagamento</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group col-lg-12">
-                        <label for="cliente">Cliente</label>
-                        <select  id="cliente" class="form-control" data-placeholder="Escolha um cliente">
-                            <option value="0"></option>
-                        </select>
-                    </div>
-                    <hr >
-                    <div class="col-lg-4"></div>
-                    <div class="panel panel-default col-lg-4">
-                        <div class="panel-heading" style="text-align: center">Total</div>
-                        <div class="panel-body" style="color: green; font-size: 35px; font-weight: bold; text-align: center">
+                    <input type="hidden" id="cdregistro">
+
+                    <p>Confirmar pagamento no valor de: </p>
+                    <div class="col-lg-3"></div>
+                    <div class="panel panel-default col-lg-6">
+                        <!--<div class="panel-heading" style="text-align: center">Total</div>-->
+                        <div class="panel-body" style="color: red; font-size: 35px; font-weight: bold; text-align: center">
                             <span class="vl-total"></span>
                         </div>
                     </div>
-                    <div class="col-lg-4"></div>
-                    <div class="row"></div>
-                    <div class="form-group col-lg-2">
-                        <label for="qtde">Qtde</label>
-                        <input id="qtde" class="form-control" type="number" value="1" min="1"/>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <label for="produto">Produto</label>
-                        <select  id="produto" class="form-control" data-placeholder="Escolha um produto">
-                            <option value="0"></option>
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-2">
-                        <label for="valor">Valor Unit</label>
-                        <input id="valor" class="form-control" />
-                    </div>
-                    <div class="form-group col-lg-2">
-                        <label for="subtotal">Valor Total</label>
-                        <input id="subtotal" class="form-control" style="color: blue; font-weight: bold"/>
-                    </div>
-                    <div class="row"></div>
-                    <div class="form-group checkbox col-lg-2">
-                        <label>
-                            <input type="checkbox" id="pago" >Pago ?
-                        </label>
-                    </div>
-                    <div class="row"></div>
-                    <button class="btn btn-success btn-adicionar">Adicionar</button>
+                    <div class="col-lg-3"></div>
                     <div class="row"></div>
 
-                    <table class="tb-produtos table table-hover">
-                        <thead>
-                          <th>#</th>
-                          <th>Descri&ccedil;&atilde;o</th>
-                          <th>Qtde</th>
-                          <th>Valor</th>
-                        </thead>
-                        <tbody id="tb-itens"></tbody>
-                    </table>
+                    <div class="col-lg-3"></div>
+                    <div class="panel panel-default col-lg-6" >
+                        <div class="panel-heading" style="text-align: center">Valor Pago</div>
+                        <div class="panel-body" style="color: blue; font-size: 35px; font-weight: bold; text-align: center">
+                            <div class="col-lg-3"></div>
+                            <input type="text" id="valorpago" class="col-lg-12" style="text-align: center">
+
+                            <div class="col-lg-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="row"></div>
+
+                    <div class="col-lg-3"></div>
+                    <div class="panel panel-default col-lg-6" >
+                        <div class="panel-heading" style="text-align: center">Troco</div>
+                        <div class="panel-body" style="color: green; font-size: 35px; font-weight: bold; text-align: center">
+                            <div class="col-lg-3"></div>
+                            <input type="text" id="troco" class="col-lg-12" style="text-align: center" disabled>
+
+                            <div class="col-lg-3"></div>
+                        </div>
+                    </div>
 
 
                     <div class="row"></div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-sim">Sim</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
@@ -117,14 +102,14 @@ if( !isset( $_SESSION['login'] ) ){
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Lan&ccedil;amento</li>
+				<li class="active">Lan&ccedil;amento / Registros</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="col-lg-9">Lan&ccedil;amento</h1>
-                <button class="btn btn-primary col-lg-1 btn-novo" style="margin-top: 50px;">Novo Registro</button>
+				<h1 class="col-lg-9">Registros</h1>
+                <button class="btn btn-primary col-lg-2 btn-novo" style="margin-top: 50px;" disabled>M&uacute;ltiplos Pagamentos</button>
 			</div>
 		</div><!--/.row-->
 				
@@ -138,11 +123,13 @@ if( !isset( $_SESSION['login'] ) ){
 						    <thead>
 						    <tr>
 						        <!--<th data-field="state" data-checkbox="true" >ID</th>-->
-						        <th data-field="id" data-sortable="true">Cach&aacute;</th>
-						        <th data-field="name"  data-sortable="true">Nome</th>
-						        <th data-field="valor"  data-sortable="true">Empresa</th>
+						        <th><input type="checkbox" id="checkHead"></th>
+						        <th data-field="id" data-sortable="true">#</th>
+						        <th data-field="name"  data-sortable="true">Produto</th>
+						        <th data-field="valor"  data-sortable="true">Qtde</th>
 						        <th data-field="valor"  data-sortable="true">Valor</th>
-						        <th data-field="" data-sortable="true"></th>
+						        <th data-field="valor"  data-sortable="true">Data</th>
+						        <th data-field=""></th>
 						    </tr>
 						    </thead>
                             <tbody class="tbody"></tbody>
@@ -161,21 +148,9 @@ if( !isset( $_SESSION['login'] ) ){
 	<script src="js/bootstrap-table.js"></script>
 
     <script src="js/selecao.js"></script>
+    <script src="js/jquery.maskMoney.min.js"></script>
 
-    <script src="js/chosen.jquery.min.js"></script>
-    <script src="js/jquery.tabletojson.min.js"></script>
-    <script src="js/lancamento.js"></script>
-    <script>
-        $('.modal-registro').on('shown.bs.modal', function () {
-           // $('#resp', this).chosen('destroy').chosen();
-            $('#cliente', this).chosen('destroy').chosen( {allow_single_deselect: true} );
-            $('#produto', this).chosen('destroy').chosen( {allow_single_deselect: true} );
-            // console.log("User: "+$('#usuario').val());
-            // $('#resp').text( $('#usuario').val() ).trigger("chosen:updated");
-        });
-    </script>
-
-
+    <script src="js/registro.js"></script>
 </body>
 
 </html>

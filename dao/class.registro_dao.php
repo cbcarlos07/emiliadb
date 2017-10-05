@@ -130,13 +130,14 @@ class registro_dao
         $objList = new registroList();
         try{
 
-            $sql = "SELECT R.CD_REG_PESSOA
-                          ,P.NR_CRACHA
-                          ,P.NM_PESSOA
-                          ,E.DS_EMPRESA
-                          ,I.DS_PRODUTO
+            $sql = "SELECT R.CD_REG_PESSOA CODIGO
+                          ,P.NR_CRACHA     CRACHA  
+                          ,P.NM_PESSOA     NOME
+                          ,E.DS_EMPRESA    EMPRESA
+                          ,I.DS_PRODUTO   
                           ,R.QT_COMPRA
-                          ,R.VL_PRECO
+                          ,R.VL_PRECO      VALOR
+                          ,DATE_FORMAT(R.DT_REGISTRO, '%d/%m/%Y %H:%i' ) DT_REGISTRO
                       FROM registro     R
                            JOIN pessoa  P
                            JOIN empresa E
@@ -149,7 +150,7 @@ class registro_dao
                     ";
             $stmt = $this->connection->prepare( $sql );
 
-            $stmt->bindValue( ":pessoa", $pessoa, PDO::PARAM_STR );
+            $stmt->bindValue( ":pessoa", $pessoa, PDO::PARAM_INT );
             $stmt->execute();
             while ($row = $stmt->fetch( PDO::FETCH_ASSOC )){
                 $obj = new registro();
@@ -161,6 +162,7 @@ class registro_dao
                 $obj->setItem( $row['DS_PRODUTO'] );
                 $obj->setQtCompra( $row['QT_COMPRA'] );
                 $obj->setVlPreco( $row['VALOR'] );
+                $obj->setDtRegistro( $row['DT_REGISTRO'] );
                 $objList->addRegistro( $obj );
             }
 

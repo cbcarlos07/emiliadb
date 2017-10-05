@@ -122,6 +122,7 @@ function listaRegistro( $pessoa, $cracha ){
 
         $registro = $reg_in->getNextRegistro();
         $registros[] = array(
+            "codigo"  => $registro->getCdRegPessoa(),
             "cracha"  => $registro->getPessoa()->getNrCracha(),
             "pessoa"  => $registro->getPessoa()->getNmPessoa(),
             "empresa" => $registro->getSnPago(),
@@ -139,6 +140,7 @@ function listaITem ( $pessoa ){
     require_once "../controller/class.registro_controller.php";
     require_once "../services/class.registroListIterator.php";
     $registro_Controller = new registro_controller();
+    //echo "Codigo: $pessoa \n";
     $lista = $registro_Controller->listaRegistroItem( $pessoa );
     $registros  = array();
     $reg_in = new registroListIterator( $lista );
@@ -149,9 +151,11 @@ function listaITem ( $pessoa ){
             "codigo"  => $registro->getCdRegPessoa(),
             "cracha"  => $registro->getPessoa()->getNrCracha(),
             "pessoa"  => $registro->getPessoa()->getNmPessoa(),
-            "empresa" => $registro->getNmPago(),
+            "empresa" => $registro->getSnPago(),
+            "produto" => $registro->getItem(),
             "qtde"    => $registro->getQtCompra(),
             "valor"   => $registro->getVlPreco(),
+            "data"   => $registro->getDtRegistro(),
         );
 
     }
