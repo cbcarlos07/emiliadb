@@ -97,12 +97,15 @@ function registrar_compra( $pessoa,  $pago, $itens ){
 
 
 function registrar_pagamento( $pago, $registro ){
+   // echo "Pago: $pago \n";
+   // echo "Registro: $registro \n";
     require_once "../controller/class.registro_controller.php";
-    $registro['registro'] = $registro;
-    $registro['pago']   = $pago;
+   // echo "Registro $registro \n";
+    $reg['registro'] = $registro;
+    $reg['pago']   = $pago;
 
     $registro_Controller = new registro_controller();
-    $teste = $registro_Controller->update( $registro );
+    $teste = $registro_Controller->update( $reg );
 
     if( $teste )
         echo json_encode( array( "retorno" => 1 ) );

@@ -55,18 +55,20 @@ function carregarTabela() {
             pessoa : id
         },
         success : function (data) {
-            var pessoa;
-            var empresa;
-            var cracha;
+            var pessoa   = "";
+            var empresa  = "";
+            var cracha   = "";
+            var total    = 0;
 
             $.each( data, function (i, j) {
 
                 pessoa  = j.pessoa;
                 empresa = j.empresa;
                 cracha  = j.cracha;
+                total   += parseFloat( j.valor );
                 itens.append(
                     "<tr>" +
-                        "<td><input type='checkbox' id='check' value='"+j.codigo+"'  class='chcktbl'></td>"+
+                        "<td><input type='checkbox' id='check' data-valor='"+ j.valor +"' value='"+j.codigo+"'  class='chcktbl'></td>"+
                         "<td>"+ j.codigo +"</td>"+
                         "<td>"+ j.produto +"</td>"+
                         "<td>"+ j.qtde +"</td>"+
@@ -77,17 +79,27 @@ function carregarTabela() {
                 );
             } );
 
+            $('span.nome').text( pessoa );
+            $('span.cracha').text( cracha );
+            $('span.empresa').text( empresa );
+            $('span.total').text( formataDinheiro( total ) );
+
 
             $('.btn-pay-one').on('click', function () {
                 var valor = $(this).data('valor');
                 var id = $(this).data('id');
-
+                console.log("Id do registro: "+id);
                 $('span.vl-total').html( valor );
                 var divValor = $('#valorpago');
-                divValor.val( "R$ 0,00" );
-                $('#cdregistro').val( id )
+                //divValor.val( "R$ 0,00" );
+                $('#cdregistro').val( id );
                 calcularTroco();
                 $('.modal-registro').modal('show');
+
+                $('.btn-sim').on('click', function () {
+                    console.log("Registrar pagamento");
+                    registrarPagamento( id );
+                });
             });
 
 
@@ -114,10 +126,126 @@ function totalChecado() {
      numberOfChecked = $('input[class="chcktbl"]:checked').length;
     console.log("Numero checado: "+numberOfChecked);
     if( numberOfChecked > 1 ){
-        $('.btn-novo').removeAttr("disabled");
+        $('.btn-multiple').removeAttr("disabled");
+    }else{
+        $('.btn-multiple').attr("disabled",true);
     }
 }
 
 function formataDinheiro( n ) {
     return "R$ " + n.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, "$1.");
+}
+
+
+$('.btn-multiple').on('click', function () {
+    var valor = 0;
+    var id = [];
+    $('.chcktbl:checked').each(function () {
+
+     //   console.log( "Codigo: "+$(this).val()+" Valor: "+$(this).data('valor') );
+
+        valor += parseFloat( $(this).data('valor') );
+
+        id.push( $(this).val() );
+
+
+
+
+    });
+
+    $('span.vl-total').html( formataDinheiro( valor ) );
+    var divValor = $('#valorpago');
+    //divValor.val( "R$ 0,00" );
+
+    calcularTroco();
+    $('.modal-registro').modal('show');
+
+    $('.btn-sim').on('click', function () {
+        $.each( id, function (i, j) {
+            console.log("Registrar pagamento: "+i);
+
+            registrarPagamento( id[i] );
+        } );
+
+    });
+});
+
+
+function registrarPagamento( id ){
+     console.log("funcao registrarPagamento");
+    $.ajax({
+        url  : 'function/registro.php',
+        type : 'post',
+        dataType : 'json',
+        beforeSend: aguardandoModal,
+        data : {
+            pago : 'S',
+            registro : id,
+            acao     : 'P'
+        },
+        success : function ( data ) {
+            console.log("Retorno: "+data.retorno);
+            if( data.retorno == 1 ){
+                msgSucessoModal();
+            }else{
+                erroSendModal();
+            }
+        },
+        error : function (data) {
+            console.log(data);
+        }
+    })
+}
+
+
+
+
+function aguardando() {
+    $('.progress').fadeIn();
+}
+
+function erroSend() {
+    var mensagem = $('.mensagem');
+    mensagem.empty().html("<p class='alert alert-danger'><strong>Ops</strong> Ocorreu um erro ao processar sua requisi&ccedil;&atilde;o </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut('slow');
+    }, 3000)
+
+}
+
+function aguardandoModal() {
+    var mensagem = $('.progressModal');
+    mensagem.empty().html("<p class='alert alert-danger'><strong>Ops</strong> Ocorreu um erro ao processar sua requisi&ccedil;&atilde;o </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut('slow');
+    }, 3000)
+
+}
+
+function erroSendModal() {
+    var mensagem = $('.msgAvisoModal');
+    mensagem.empty().html("<p class='alert alert-danger'><strong>Ops</strong> Ocorreu um erro ao processar sua requisi&ccedil;&atilde;o </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut('slow');
+    }, 3000)
+
+}
+
+function msgSucesso() {
+    var mensagem = $('.mensagem');
+    mensagem.empty().html("<p class='alert alert-success'><strong>Parab&eacute;ns</strong> Opera&ccedil;&atilde;o realizada com sucesso! </p>").fadeIn();
+    setTimeout(function () {
+        mensagem.fadeOut();
+        location.href = "pessoa.php";
+    },3000);
+}
+
+
+function msgSucessoModal() {
+    var mensagem = $('.msgAvisoModal');
+    mensagem.empty().html("<p class='alert alert-success'><strong>Parab&eacute;ns</strong> Opera&ccedil;&atilde;o realizada com sucesso! </p>").fadeIn();
+    setTimeout(function () {
+        location.reload();
+      //  preencherTabela();
+    },3000);
 }

@@ -64,7 +64,7 @@ if( !isset( $_SESSION['login'] ) ){
                         <div class="panel-heading" style="text-align: center">Valor Pago</div>
                         <div class="panel-body" style="color: blue; font-size: 35px; font-weight: bold; text-align: center">
                             <div class="col-lg-3"></div>
-                            <input type="text" id="valorpago" class="col-lg-12" style="text-align: center">
+                            <input type="text" id="valorpago" class="col-lg-12" style="text-align: center" placeholder="R$ 0,00">
 
                             <div class="col-lg-3"></div>
                         </div>
@@ -109,10 +109,31 @@ if( !isset( $_SESSION['login'] ) ){
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="col-lg-9">Registros</h1>
-                <button class="btn btn-primary col-lg-2 btn-novo" style="margin-top: 50px;" disabled>M&uacute;ltiplos Pagamentos</button>
+                <button class="btn btn-primary col-lg-2 btn-multiple" style="margin-top: 50px;" disabled>M&uacute;ltiplos Pagamentos</button>
 			</div>
 		</div><!--/.row-->
-				
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group col-lg-1">
+                    <label for="cracha">Crach&aacute;</label>
+                    <div class="panel panel-default"><span class="cracha"></span></div>
+                </div>
+                <div class="form-group col-lg-5">
+                    <label for="nome">Nome</label>
+                    <div class="panel panel-default"><span class="nome"></span></div>
+                </div>
+                <div class="row"></div>
+                <div class="form-group col-lg-4">
+                    <label for="empresa">Empresa</label>
+                    <div class="panel panel-default"><span class="empresa"></span></div>
+                </div>
+                <div class="form-group col-lg-2">
+                    <label for="total">Total</label>
+                    <div class="panel panel-default"><span class="total"></span></div>
+                </div>
+            </div>
+        </div>
 		
 		<div class="row">
 			<div class="col-lg-12">

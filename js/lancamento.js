@@ -275,8 +275,9 @@ function preencherTabela() {
             cracha : '%'
         },
         success : function (data) {
-
+            var total = 0;
             $.each( data, function (item, chave ) {
+                total += parseFloat( chave.valor );
                // console.log("Codigo: "+chave.codigo);
                 tbody.append(
                     "<tr>"+
@@ -287,7 +288,6 @@ function preencherTabela() {
                         "<td> " +
                             "<a class='btn btn-primary btn-detail' data-id='"+chave.codigo+"'> Detalhes </a>"+
                             "<a class='btn btn-success btn-pay' data-id='"+chave.codigo+"'> Registrar Pagamento </a> " +
-
                         "</td>"+
 
                     "</tr>"

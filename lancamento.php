@@ -124,9 +124,17 @@ if( !isset( $_SESSION['login'] ) ){
                 <button class="btn btn-primary col-lg-1 btn-novo" style="margin-top: 50px;">Novo Registro</button>
 			</div>
 		</div><!--/.row-->
-				
-		
-		<div class="row">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group col-lg-1">
+                    <label for="cracha">Total a Receber</label>
+                    <div class="panel panel-default"><span class="total"></span></div>
+                </div>
+
+        </div>
+
+        <div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 

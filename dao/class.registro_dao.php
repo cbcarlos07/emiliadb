@@ -41,8 +41,8 @@ class registro_dao
        return $teste;
    }
 
-    public function update (  $registro ){
-
+    public function update ( $registro ){
+        require_once "../include/error.php";
         require_once "class.connection_factory.php";
         $teste = false;
         $this->connection = new connection();

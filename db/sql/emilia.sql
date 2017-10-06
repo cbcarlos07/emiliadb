@@ -186,8 +186,9 @@ CREATE  TABLE IF NOT EXISTS `emiliabd`.`registro` (
   `CD_PESSOA` INT UNSIGNED NOT NULL ,
   `CD_ITEM` INT UNSIGNED NOT NULL ,
   `VL_PRECO` DECIMAL(10,2) NULL ,
-  `DT_REGISTRO` DATE NULL ,
+  `DT_REGISTRO` DATETIME NULL ,
   `SN_PAGO` CHAR(1) NULL ,
+  `QT_COMPRA` INT NULL ,
   PRIMARY KEY (`CD_REG_PESSOA`) ,
   INDEX `fk_registro_pessoa1_idx` (`CD_PESSOA` ASC) ,
   INDEX `fk_registro_item1_idx` (`CD_ITEM` ASC) ,
@@ -205,15 +206,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `emiliabd`.`PGTO_PESSOA`
+-- Table `emiliabd`.`pgto_pessoa`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `emiliabd`.`PGTO_PESSOA` ;
+DROP TABLE IF EXISTS `emiliabd`.`pgto_pessoa` ;
 
-CREATE  TABLE IF NOT EXISTS `emiliabd`.`PGTO_PESSOA` (
+CREATE  TABLE IF NOT EXISTS `emiliabd`.`pgto_pessoa` (
   `CD_PGTO` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `CD_REG_PESSOA` INT UNSIGNED NOT NULL ,
-  `DT_PGTO` DATE NULL ,
+  `DT_PGTO` DATETIME NULL ,
   `NR_VALOR` DECIMAL(10,2) NULL ,
+  `pgto_pessoacol` VARCHAR(45) NULL ,
   INDEX `fk_PGTO_PESSOA_registro1_idx` (`CD_REG_PESSOA` ASC) ,
   PRIMARY KEY (`CD_PGTO`) ,
   CONSTRAINT `fk_PGTO_PESSOA_registro1`
@@ -223,6 +225,26 @@ CREATE  TABLE IF NOT EXISTS `emiliabd`.`PGTO_PESSOA` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+USE `emiliabd`;
+
+DELIMITER $$
+
+USE `emiliabd`$$
+DROP TRIGGER IF EXISTS `emiliabd`.`trg_insert_pay` $$
+USE `emiliabd`$$
+
+CREATE TRIGGER `emiliabd`.`trg_insert_pay` AFTER UPDATE ON registro
+ FOR EACH ROW
+BEGIN
+
+   INSERT INTO pgto_pessoa VALUES (NULL, NEW.CD_REG_PESSOA, NOW(), NEW.VL_PRECO );
+
+
+
+END $$
+
+
+DELIMITER ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
