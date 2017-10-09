@@ -266,34 +266,35 @@ function preencherTabela() {
      var tbody = $('.tbody');
      tbody.find('tr').remove();
     $.ajax({
-        url : 'function/registro.php',
-        type : 'post',
+        url: 'function/registro.php',
+        type: 'post',
         dataType: 'json',
-        data : {
-            acao : 'L',
-            pessoa : '%',
-            cracha : '%'
+        data: {
+            acao: 'L',
+            pessoa: '%',
+            cracha: '%'
         },
-        success : function (data) {
+        success: function (data) {
             var total = 0;
-            $.each( data, function (item, chave ) {
-                total += parseFloat( chave.valor );
-               // console.log("Codigo: "+chave.codigo);
+            $.each(data, function (item, chave) {
+                total += parseFloat(chave.valor);
+                // console.log("Codigo: "+chave.codigo);
                 tbody.append(
-                    "<tr>"+
-                        "<td>"+ chave.cracha +"</td>"+
-                        "<td>"+ chave.pessoa +"</td>"+
-                        "<td>"+ chave.empresa +"</td>"+
-                        "<td> <a href='#pg' data-id='"+ chave.cracha +"' class='lnk-pgto'>"+ formataDinheiro( parseFloat( chave.valor ) ) +"</a> </td>"+
-                        "<td> " +
-                            "<a class='btn btn-primary btn-detail' data-id='"+chave.codigo+"'> Detalhes </a>"+
-                            "<a class='btn btn-success btn-pay' data-id='"+chave.codigo+"'> Registrar Pagamento </a> " +
-                        "</td>"+
+                    "<tr>" +
+                    "<td>" + chave.cracha + "</td>" +
+                    "<td>" + chave.pessoa + "</td>" +
+                    "<td>" + chave.empresa + "</td>" +
+                    "<td> <a href='#pg' data-id='" + chave.cracha + "' class='lnk-pgto'>" + formataDinheiro(parseFloat(chave.valor)) + "</a> </td>" +
+                    "<td> " +
+                    "<a class='btn btn-primary btn-detail' data-id='" + chave.codigo + "'> Detalhes </a>" +
+                    "<a class='btn btn-success btn-pay' data-id='" + chave.codigo + "'> Registrar Pagamento </a> " +
+                    "</td>" +
 
                     "</tr>"
                 );
-            } );
-            
+            });
+
+            $('span.total').text(formataDinheiro(total));
             $('.lnk-pgto').on('click', function () {
                 var id = $(this).data('id');
 
@@ -301,16 +302,15 @@ function preencherTabela() {
 
             $('.btn-detail').on('click', function () {
                 var id = $(this).data('id');
-              //  alert("Codigo: "+id);
+                //  alert("Codigo: "+id);
                 var form = $('<form action="registros.php" method="post">' +
-                                 '<input type="hidden" name="id" value="'+ id +'">'+
-                             '</form>');
-                $('body').append( form );
+                    '<input type="hidden" name="id" value="' + id + '">' +
+                    '</form>');
+                $('body').append(form);
                 form.submit();
             });
 
+
         }
-    })
-
-
+    });
 }
