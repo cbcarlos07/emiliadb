@@ -9,6 +9,7 @@ if( !isset( $_SESSION['login'] ) ){
 <?php include "include/head.php"?>
 
 <link href="css/chosen.min.css" rel="stylesheet" type="text/css">
+<link href="css/geral.css" rel="stylesheet" type="text/css">
 
 
 
@@ -18,7 +19,7 @@ if( !isset( $_SESSION['login'] ) ){
 
 		
 	<?php include "include/menu_bar.php" ?>
-    <link href="css/loader.css" rel="stylesheet">
+    <link href="css/loader.css" rel="stylesheet" type="text/css">
 
     <div class="progress" style="margin-top: -50px; position: absolute; z-index: 2;">
         <div class="indeterminate"></div>

@@ -128,7 +128,21 @@ function calcularSubTotal() {
 
 $('.btn-adicionar').on('click', function () {
   //  console.log("Adicionar");
-    adicionarItemTable();
+    if( ( $('#cliente').val() > 0 ) &&  ( $('#produto').val() > 0 ) ) {
+        adicionarItemTable();
+        $('#cliente.chosen-container-single').removeClass('required');
+    }else{
+
+         if( $('#cliente').val() == 0 ){
+             console.log("Falta selecionar um cliente");
+             $('#cliente_chosen').addClass('required');
+         }
+
+        if( $('#produto').val() == 0 ){
+            $('#produto_chosen').addClass('required');
+        }
+    }
+
 });
 
 function adicionarItemTable() {
@@ -148,12 +162,18 @@ function adicionarItemTable() {
             "<td>"+ desc +"</td>"+
             "<td>"+ qtde +"</td>"+
             "<td>"+ valor +"</td>"+
+        "  <td><a href='#div' class='btn btn-danger btn-remove btn-xs'>remover</a></td>"+
         "</tr>";
     $('#tb-itens').append( linha );
 
     calcularTotal();
 
 }
+
+$("#tb-itens").on("click", ".btn-remove", function(e){
+    $(this).closest('tr').remove();
+});
+
 
 function calcularTotal() {
     var valor = 0;
@@ -288,6 +308,7 @@ function preencherTabela() {
                     "<td> " +
                     "<a class='btn btn-primary btn-detail' data-id='" + chave.codigo + "'> Detalhes </a>" +
                     "<a class='btn btn-success btn-pay' data-id='" + chave.codigo + "'> Registrar Pagamento </a> " +
+
                     "</td>" +
 
                     "</tr>"
