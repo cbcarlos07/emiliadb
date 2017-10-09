@@ -57,8 +57,13 @@ switch ( $acao ){
     case 'I':
         listaITem( $pessoa );
         break;
+    case 'V':
+        percorrerItens( $pessoa );
+        break;
 
 }
+
+
 
 
 function registrar_compra( $pessoa,  $pago, $itens ){
@@ -164,4 +169,26 @@ function listaITem ( $pessoa ){
     }
 
     echo json_encode( $registros );
+}
+
+function percorrerItens( $pessoa ){
+    require_once "../controller/class.registro_controller.php";
+    require_once "../services/class.registroListIterator.php";
+    $registro_Controller = new registro_controller();
+    //echo "Codigo: $pessoa \n";
+    $lista = $registro_Controller->listaRegistroItem( $pessoa );
+    $reg_in = new registroListIterator( $lista );
+    $teste = false;
+    while ( $reg_in->hasNextRegistro() ){
+        $registro = $reg_in->getNextRegistro();
+        $reg['registro'] = $registro->getCdRegPessoa();
+        $reg['pago']   = 'S';
+        $teste = $registro_Controller->update( $reg );
+
+    }
+
+    if( $teste )
+       echo json_encode(  array( "retorno" => 1) );
+    else
+        echo json_encode(  array( "retorno" => 0) );
 }

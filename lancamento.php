@@ -28,6 +28,74 @@ if( !isset( $_SESSION['login'] ) ){
          style="margin-top: -65px; margin-left: -15px; text-align: center; width: 110%; position: relative; font-size: 12px; z-index: 3">
         <p class="alert alert-success">Mensagem de retorno</p>
     </div>
+
+    <div class="modal fade modal-pay" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog " role="document">
+
+            <div class="modal-content">
+                <input type="hidden" id="cdregistro">
+
+                <div class="msgAvisoModal"
+                     style="margin-top: 0;  text-align: center; width: 100%; position: relative; font-size: 12px; z-index: 3">
+                    <p class="alert alert-success">Mensagem de retorno</p>
+                </div>
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirmar Pagamento</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="cdregistro">
+
+                    <p>Confirmar pagamento no valor de: </p>
+                    <div class="col-lg-3"></div>
+                    <div class="panel panel-default col-lg-6">
+                        <!--<div class="panel-heading" style="text-align: center">Total</div>-->
+                        <div class="panel-body" style="color: red; font-size: 35px; font-weight: bold; text-align: center">
+                            <span class="vl-total"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3"></div>
+                    <div class="row"></div>
+
+                    <div class="col-lg-3"></div>
+                    <div class="panel panel-default col-lg-6" >
+                        <div class="panel-heading" style="text-align: center">Valor Pago</div>
+                        <div class="panel-body" style="color: blue; font-size: 35px; font-weight: bold; text-align: center">
+                            <div class="col-lg-3"></div>
+                            <input type="text" id="valorpago" class="col-lg-12" style="text-align: center" placeholder="R$ 0,00">
+
+                            <div class="col-lg-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="row"></div>
+
+                    <div class="col-lg-3"></div>
+                    <div class="panel panel-default col-lg-6" >
+                        <div class="panel-heading" style="text-align: center">Troco</div>
+                        <div class="panel-body" style="color: green; font-size: 35px; font-weight: bold; text-align: center">
+                            <div class="col-lg-3"></div>
+                            <input type="text" id="troco" class="col-lg-12" style="text-align: center" disabled>
+
+                            <div class="col-lg-3"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="row"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-yes">Sim</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
     <div class="modal fade modal-registro" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
 
@@ -129,7 +197,7 @@ if( !isset( $_SESSION['login'] ) ){
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-group col-lg-1">
-                    <label for="cracha">Total a Receber</label>
+                    <label for="total">Total a Receber</label>
                     <div class="panel panel-default"><span class="total"></span></div>
                 </div>
 

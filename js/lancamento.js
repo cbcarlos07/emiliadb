@@ -189,13 +189,40 @@ function calcularTotal() {
     });
 
   //  console.log( "Total: "+valor );
-    $('.vl-total').text( formataDinheiro( valor ) );
+    $('.total').text( formataDinheiro( valor ) );
 }
 
 $('.btn-sim').on('click', function () {
     salvarItens();
 });
 
+
+
+$('#valorpago').on('input', function () {
+    calcularTroco();
+});
+
+function calcularTroco() {
+    console.log("Calcular troco");
+    var idTroco = $('input[id="troco"]');
+    var strTotal = $('span.vl-total').text();
+    var fTotal = parseFloat( strTotal.replace("R$ ","").replace(",",".") );
+
+    var strValor = $('#valorpago').val(  );
+    var fValor   = parseFloat( strValor.replace( "R$ ","" ).replace( ",","." ) )
+
+    var vTroco = fValor - fTotal;
+
+    idTroco.val(  formataDinheiro( vTroco )  );
+
+    if( vTroco < 0){
+        idTroco.css( "color", "red" );
+    }else{
+        idTroco.css( "color", "green" );
+    }
+
+
+}
 
 function salvarItens() {
    var pessoa = $('#cliente').val();
@@ -316,8 +343,32 @@ function preencherTabela() {
             });
 
             $('span.total').text(formataDinheiro(total));
-            $('.lnk-pgto').on('click', function () {
+            $('.btn-pay').on('click', function () {
                 var id = $(this).data('id');
+                console.log("Total: "+formataDinheiro( total ));
+                $('span.vl-total').text( formataDinheiro( total ) );
+                calcularTotal();
+                $('.modal-pay').modal('show');
+                //calcularTroco();
+                $('.btn-yes').on( 'click', function () {
+                        $.ajax({
+                            url : 'function/registro.php',
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSend : aguardandoModal(),
+                            data: {
+                                acao : 'V',
+                                pessoa : id
+                            },
+                            success : function (data) {
+                                if( data.retorno > 0 ){
+                                    msgSucessoModal();
+                                }else{
+                                    erroSendModal();
+                                }
+                            }
+                        })
+                } );
 
             });
 
@@ -335,3 +386,4 @@ function preencherTabela() {
         }
     });
 }
+
