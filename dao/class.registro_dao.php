@@ -96,7 +96,7 @@ class registro_dao
                     ";
             $stmt = $this->connection->prepare( $sql );
 
-            $stmt->bindValue( ":pessoa", $pessoa, PDO::PARAM_STR );
+            $stmt->bindValue( ":pessoa", "%$pessoa%", PDO::PARAM_STR );
             $stmt->bindValue( ":cracha", $cracha, PDO::PARAM_STR );
             $stmt->execute();
             while ($row = $stmt->fetch( PDO::FETCH_ASSOC )){

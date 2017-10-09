@@ -204,6 +204,18 @@ if( !isset( $_SESSION['login'] ) ){
 
         </div>
 
+            <div class="col-lg-12">
+
+                <div class="form-group col-lg-1">
+                    <label for="cracha">Crac&aacute;</label>
+                    <input id="cracha" class="form-control">
+                </div>
+                <div class="form-group col-lg-5">
+                    <label for="nome">Cliente</label>
+                    <input class="form-control" id="nome">
+                </div>
+            </div>
+
         <div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
@@ -241,11 +253,13 @@ if( !isset( $_SESSION['login'] ) ){
     <script src="js/jquery.tabletojson.min.js"></script>
     <script src="js/lancamento.js"></script>
     <script>
+
+        // console.log("User: "+$('#usuario').val());
         $('.modal-registro').on('shown.bs.modal', function () {
            // $('#resp', this).chosen('destroy').chosen();
             $('#cliente', this).chosen('destroy').chosen( {allow_single_deselect: true} );
             $('#produto', this).chosen('destroy').chosen( {allow_single_deselect: true} );
-            // console.log("User: "+$('#usuario').val());
+
             // $('#resp').text( $('#usuario').val() ).trigger("chosen:updated");
         });
     </script>

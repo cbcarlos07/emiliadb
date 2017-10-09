@@ -20,7 +20,7 @@ $('.btn-novo').on('click', function () {
 
 });
 
-function carregarListaCliente() {
+function carregarListaCliente(  ) {
     var combo = $('#cliente');
     combo.find('option').remove();
     $.ajax({
@@ -394,6 +394,104 @@ function preencherTabela() {
         }
     });
 }
+
+
+$('#nome').on('input', function () {
+    $('#cracha').val("");
+    carregarTabela( $(this).val(), '' );
+});
+
+$('#cracha').on('input', function () {
+    $('#nome').val("");
+    carregarTabela( '', $(this).val() );
+});
+
+function carregarTabela( pessoa, cracha ) {
+    var tbody = $('.tbody');
+    tbody.find('tr').remove();
+    $.ajax({
+        url: 'function/registro.php',
+        type: 'post',
+        dataType: 'json',
+        data: {
+            acao: 'L',
+            pessoa: pessoa,
+            cracha: cracha
+        },
+        success: function (data) {
+            var total = 0;
+            $.each(data, function (item, chave) {
+                total += parseFloat(chave.valor);
+                // console.log("Codigo: "+chave.codigo);
+                tbody.append(
+                    "<tr>" +
+                    "<td>" + chave.cracha + "</td>" +
+                    "<td>" + chave.pessoa + "</td>" +
+                    "<td>" + chave.empresa + "</td>" +
+                    "<td> <a href='#pg' data-id='" + chave.cracha + "' class='lnk-pgto'>" + formataDinheiro(parseFloat(chave.valor)) + "</a> </td>" +
+                    "<td> " +
+                    "<a class='btn btn-primary btn-detail' data-id='" + chave.codigo + "'> Detalhes </a>" +
+                    "<a class='btn btn-success btn-pay' data-id='" + chave.codigo + "'> Registrar Pagamento </a> " +
+
+                    "</td>" +
+
+                    "</tr>"
+                );
+            });
+
+            $('span.total').text(formataDinheiro(total));
+            var btn_print = $('.btn-print');
+            if( total > 0 ){
+                btn_print.attr("disabled", false);
+            }else{
+                btn_print.attr("disabled", true);
+            }
+
+
+            $('.btn-pay').on('click', function () {
+                var id = $(this).data('id');
+                console.log("Total: "+formataDinheiro( total ));
+                $('span.vl-total').text( formataDinheiro( total ) );
+                calcularTotal();
+                $('.modal-pay').modal('show');
+                //calcularTroco();
+                $('.btn-yes').on( 'click', function () {
+                    $.ajax({
+                        url : 'function/registro.php',
+                        type: 'post',
+                        dataType: 'json',
+                        beforeSend : aguardandoModal(),
+                        data: {
+                            acao : 'V',
+                            pessoa : id
+                        },
+                        success : function (data) {
+                            if( data.retorno > 0 ){
+                                msgSucessoModal();
+                            }else{
+                                erroSendModal();
+                            }
+                        }
+                    })
+                } );
+
+            });
+
+            $('.btn-detail').on('click', function () {
+                var id = $(this).data('id');
+                //  alert("Codigo: "+id);
+                var form = $('<form action="registros.php" method="post">' +
+                    '<input type="hidden" name="id" value="' + id + '">' +
+                    '</form>');
+                $('body').append(form);
+                form.submit();
+            });
+
+
+        }
+    });
+}
+
 
 $('.btn-print').on('click', function () {
     var total = $('span.total').text();
