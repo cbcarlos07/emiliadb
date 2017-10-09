@@ -255,6 +255,7 @@ function ativarSenha($id, $senha){
     $uc = new usuario_controller();
     $usuario = new usuario();
     $usuario->setCdUsuario( $id );
+   // echo "Senha: ".$senha;
     $usuario->setDsSenha( $senha );
     $teste = $uc->ativarSenha( $usuario );
     if( $teste ){

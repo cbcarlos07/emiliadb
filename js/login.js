@@ -61,7 +61,7 @@ $('.btn-login').on( 'click', function () {
                     sucesso(  );
                 }else if( data.sucesso === 0 ){
                     var form = $('<form action="alterarSenha.php" method="post">' +
-                                    '<input value="'+ data.codigo +'" name="id" />'+
+                                    '<input type="hidden" value="'+ data.codigo +'" name="id" />'+
                                 '</form>');
                     $('body').append( form );
                     form.submit();
@@ -180,7 +180,9 @@ function coloriCampo( id, cor) {
 
 $('.btn-new-pwd').on('click', function () {
         var id = $('#id').val();
-        var senha = $('#senha').val();
+        var senha = $('#pwd').val();
+      //  console.log("js Senha: "+senha);
+
         $.ajax({
             url  : 'function/usuario.php',
             dataType : 'json',

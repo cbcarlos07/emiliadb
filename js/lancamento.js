@@ -495,7 +495,7 @@ function carregarTabela( pessoa, cracha ) {
 
 $('.btn-print').on('click', function () {
     var total = $('span.total').text();
-    var form = $('<form action="services/pdf.php" method="post">' +
+    var form = $('<form action="services/pdf.php" method="post" target="_blank">' +
                     '<input type="hidden" name="valor" value="'+total+'">'+
                 '</form>');
     $('body').append( form );

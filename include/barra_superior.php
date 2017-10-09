@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span>FEIRA</span> DE SA&Uacute;DE</a>
+            <a class="navbar-brand" href="#"><span>CONTROLE</span> DE LAN&Ccedil;AMENTO</a>
             <ul class="user-menu">
                 <li class="dropdown pull-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>  <?=  $_SESSION['nome'] ?>  <span class="caret"></span></a>
