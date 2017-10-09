@@ -343,6 +343,14 @@ function preencherTabela() {
             });
 
             $('span.total').text(formataDinheiro(total));
+            var btn_print = $('.btn-print');
+            if( total > 0 ){
+                btn_print.attr("disabled", false);
+            }else{
+                btn_print.attr("disabled", true);
+            }
+
+
             $('.btn-pay').on('click', function () {
                 var id = $(this).data('id');
                 console.log("Total: "+formataDinheiro( total ));
@@ -387,3 +395,11 @@ function preencherTabela() {
     });
 }
 
+$('.btn-print').on('click', function () {
+    var total = $('span.total').text();
+    var form = $('<form action="services/pdf.php" method="post">' +
+                    '<input type="hidden" name="valor" value="'+total+'">'+
+                '</form>');
+    $('body').append( form );
+    form.submit();
+});

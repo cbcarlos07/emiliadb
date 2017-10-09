@@ -191,6 +191,7 @@ if( !isset( $_SESSION['login'] ) ){
 			<div class="col-lg-12">
 				<h1 class="col-lg-9">Lan&ccedil;amento</h1>
                 <button class="btn btn-primary col-lg-1 btn-novo" style="margin-top: 50px;">Novo Registro</button>
+                <button class="btn btn-warning col-lg-1 btn-print" style="margin-top: 50px;">Imprimir</button>
 			</div>
 		</div><!--/.row-->
 
